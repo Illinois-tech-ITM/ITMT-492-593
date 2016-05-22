@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Ecomon</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_sensors_menu">SensorsMenu</string>
+    <string name="sensor_default">There is no information about this sensor</string>
+    <string name="board_name">Board Name</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_details">DetailsActivity</string>
+
+</resources>

@@ -1,0 +1,7 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="edu.iit.hawk.iit.greenmon.activities.Settings">
+    <item
+        android:id="@+id/action_exit"
+        android:title="Exit"   />
+</menu>

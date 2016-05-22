@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Ecomon Glass</string>
+    <string name="title_activity_main">Hello World Immersion</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="view_sensor_data">hello</string>
+    <string name="title_activity_sensors">Hello World Immersion</string>
+    <string name="glass_voice_trigger">Ecomon</string>
+    <string name="glass_voice_prompt">Ecomon</string>
+    <string name="title_activity_details">Hello World Immersion</string>
+
+
+</resources>

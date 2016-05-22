@@ -1,0 +1,107 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="itmt.myapplication.SensorsMenu"
+    android:background="#16a727"
+    android:id="@+id/relativelayout">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="87dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/sensor_default"
+        android:id="@+id/tx_sensor1Info"
+        android:background="#FFFFFF"
+        android:textColor="#000000"
+        android:layout_below="@+id/humidityLabel"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="20dp"
+        android:textSize="16dp"
+        android:clickable="true" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="87dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+       android:text="@string/sensor_default"
+        android:id="@+id/tx_sensor2Info"
+        android:background="#FFFFFF"
+        android:textColor="#000000"
+        android:layout_alignParentEnd="false"
+        android:layout_below="@+id/tx_sensor1Info"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
+        android:textSize="16dp"
+        android:clickable="true" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="87dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+       android:text="@string/sensor_default"
+        android:id="@+id/tx_sensor3Info"
+        android:background="#FFFFFF"
+        android:textColor="#000000"
+        android:layout_alignParentStart="false"
+        android:layout_below="@+id/tx_sensor2Info"
+        android:layout_alignParentRight="true"
+        android:textSize="16dp"
+        android:clickable="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/board_name"
+        android:id="@+id/BoardName"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/bt_voice"
+        android:layout_width="40dp"
+        android:layout_height="34dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/voice_icon" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="humidity"
+        android:id="@+id/humidityLabel"
+        android:layout_below="@+id/BoardName"
+        android:layout_alignParentStart="true"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="30dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="luminosity"
+        android:id="@+id/luminosityLabel"
+        android:textColor="#FFFFFF"
+        android:layout_above="@+id/tx_sensor2Info"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="temperature"
+        android:id="@+id/temperatureLabel"
+        android:textColor="#FFFFFF"
+        android:layout_above="@+id/tx_sensor3Info"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>
