@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<!-- Page to search for records by stuent ID utilizing basic form format to post to php -->
+<body>
+    <h1>
+        Delete Existing Student By ID
+    </h1>
+    <form action=".\delete.php" method="post" align="left">
+        ID Number of Student to delete: <input type="text" name="idcode" required><br /><br />
+        <input type="submit" value="Submit">
+        <button onclick="goBack()">Back</button>
+    </form>
+
+<!-- Allows the back button to navigate backwards -->
+<script>
+	function goBack() {
+	window.history.back();
+	}
+</script>
+</body>
+</html>

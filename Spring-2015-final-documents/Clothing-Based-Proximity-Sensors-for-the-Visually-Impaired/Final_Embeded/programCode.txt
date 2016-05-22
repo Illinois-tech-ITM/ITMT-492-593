@@ -1,0 +1,165 @@
+#include <SimpleTimer.h>
+SimpleTimer timer;
+SimpleTimer touchpadTimer;
+int touchpadPin = 0; //Analog 0
+int ping[3] = {12, 4, 6}; //SET PING PINS HERE
+int vibrator[3] = {11, 5, 7}; //SET VIBRATOR PINGS HERE
+int distanceLevel[3] = {0, 0, 0};
+long SIGNIFICANT_DISTANCE = 10; //THIS IS HOW FAR DETECTION WILL CHANGE BEFORE WE UPDATE FREQUENCY TIMER
+boolean pulsing[3] = {true, true, true}; //IF IN MIDDLE OF PULSE, THIS SHOULD BE FALSE
+boolean touchpad = true; //if touchpad is touched, switch this. if false, shut down vibrators.
+boolean tooFar[] = {true, true, true}; //if too far from sensor, don't attempt to vibrate
+long pingDistanceArray[3][20] = { {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,}
+};
+int pingCounter[3] = {0, 0, 0};
+int pause[3] = {0, 0, 0};
+
+long oldTime; //time since last use of touchpad
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  pinMode(vibrator[0], OUTPUT);
+  pinMode(vibrator[1], OUTPUT);
+  pinMode(vibrator[2], OUTPUT);
+  timer.setInterval(20, vibrateAll);
+  touchpadTimer.setInterval(20, checkTouchpad);
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  if (touchpad) {
+  pingDistance(0);
+  pingDistance(1);
+  pingDistance(2);
+  }
+//  Serial.println();
+touchpadTimer.run();
+  
+  timer.run();
+  delay(3);
+}
+
+void vibrateAll() { //check all freq, vibrate as freq value.//it will be interval method.
+  //timer (every 10 msec, if freq=0, vibrating, else not)
+  vibrate(0);
+  vibrate(1);
+  vibrate(2);
+}
+
+void checkTouchpad(){
+// Serial.println(analogRead(touchpadPin));
+  if( analogRead(touchpadPin) > 200 && millis() - oldTime >= 600){
+   touchpad = !touchpad;
+   oldTime = millis();
+ }
+}
+
+
+//pulses for only 20ms, then pauses
+//pause increases as distance increases
+
+//turn off
+//if pause = distanceLeve, turn on
+//else, if pause = 0, reset to distanceLevel
+//regardless, pause - 1, continue
+void vibrate(int side) {
+
+  if (!tooFar[side] && touchpad) {
+    Serial.println("VIBRATE");
+    //turn on, decrease by 1
+    if (pause[side] == distanceLevel[side]) {
+      digitalWrite(vibrator[side], HIGH);
+      pause[side]--;
+    } else if (pause[side] < distanceLevel[side]) {
+      digitalWrite(vibrator[side], LOW);
+      pause[side]--;
+    }
+
+    if (pause[side] <= 0 || pause[side] >= distanceLevel[side]) {
+      pause[side] = distanceLevel[side];
+    }
+
+  } else {
+    digitalWrite(vibrator[side], LOW);
+  }
+}
+
+
+//if change in distance is significant, then set freq (distanceLevel)
+void pingDistance(int side) {
+  long distance =  getDistance(ping[side]);
+
+  pingDistanceArray[side][pingCounter[side]] = distance;
+  long avgDistance = averageDistance(pingDistanceArray[side]);
+  int distanceValue;
+
+  //ping counter is pingDistanceArray position
+  if (pingCounter[side] < 20) {
+    pingCounter[side]++;
+  } else {
+    pingCounter[side] = 0;
+  }
+
+  //now, see if we need to start vibrating, and if so, begin the vibrate timer for this side.
+  if (avgDistance <= 70 && avgDistance > 0) {
+    //maybe a change in 10 cm? 5?
+    //SOME_VALUE is our significant change in distance
+    distanceValue = avgDistance / SIGNIFICANT_DISTANCE;
+    Serial.print(side);
+    Serial.print(" ");
+    Serial.print(pause[side]);
+    Serial.print(" ");
+    Serial.print(distanceValue);
+    Serial.print(" ");
+    Serial.println(avgDistance);
+
+    //    if (distanceValue != distanceLevel[side]) {
+    distanceLevel[side] = distanceValue;
+    tooFar[side] = false;
+    //      pause[side]=distanceLevel[side];//set to vibrate
+    //    }
+  }
+  else {
+    tooFar[side] = true;
+  }
+}
+
+long averageDistance (long distanceArray[]) {
+  long total = 0;
+  for (int i = 0; i < 20; i++) {
+    total += distanceArray[i];
+  }
+  return (total / 20);
+}
+
+//takes in the pin for a ping's side
+//ping[side];
+long getDistance(int pingPin) {
+  pinMode(pingPin, OUTPUT);
+  digitalWrite(pingPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(pingPin, HIGH);
+
+  delayMicroseconds(5);
+  digitalWrite(pingPin, LOW);
+
+  pinMode(pingPin, INPUT);
+  int duration = pulseIn(pingPin, HIGH, 5000);
+
+  long cm = microsecondsToCentimeters(duration);
+  return cm;
+}
+
+
+//calculates distance based on microseconds gathered from Ping
+long microsecondsToCentimeters(long microseconds)
+{
+  // The speed of sound is 340 m/s or 29 microseconds per centimeter.
+  // The ping travels out and back, so to find the distance of the
+  // object we take half of the distance travelled.
+  return microseconds / 29 / 2;
+}

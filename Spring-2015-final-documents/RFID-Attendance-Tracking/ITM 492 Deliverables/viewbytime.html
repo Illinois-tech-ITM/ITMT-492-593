@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<!-- Page to search for records by start and end time utilizing basic form format to post to php -->
+<body>
+    <h1>
+        View Attendance Between Times
+    </h1>
+    <form action=".\viewbytime.php" method="post" align="left">
+		<p>Use this form to search for scans between two times.
+		Please be sure to use the following format: <br />
+		"YYYY-MM-DD HH:MM:SS"<br /><br />
+		<b>Example</b><br />
+        2015-04-25 09:30:00 and 2015-04-25 15:30:00<br />
+		Selects all scans on 4/25/2015 between 9:30AM and 3:30PM (use 24 hour format)</p>
+        Start Date: <input type="text" name="startdate" required><br />
+        Start Time: <input type="text" name="starttime" required><br /><br />
+        End Date: <input type="text" name="enddate" required><br />
+		End Time : <input type="text" name="endtime" required><br /><br />
+        <input type="submit" value="Submit">
+        <button onclick="window.location='index.php'">Back</button>
+    </form>
+    
+</body>
+</html>
